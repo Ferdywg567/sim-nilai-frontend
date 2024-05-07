@@ -1,33 +1,34 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import UserView from '@/views/UserView.vue'
-import AboutView from '../views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
-import HomeView from '@/views/HomeView.vue'
+import DashboardView from '@/views/DashboardView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: LoginView
-    // component: () => {
-    //   router.push({name: 'login'})
-    // }
+    component: () => {
+      router.push({ name: 'login' })
+    }
   },
   {
-    path: '/about',
-    name: 'about',
-    component: AboutView
+    path: '/dashboard',
+    name: 'dashboard',
+    component: DashboardView,
+    meta: {
+      auth: true,
+      role: 'admin'
+    }
   },
   {
     path: '/login',
     name: 'login',
     component: LoginView
   },
-  {
-    path: '/user',
-    name: 'user',
-    component: UserView
-  }
+  // {
+  //   path: '/user',
+  //   name: 'user',
+  //   component: UserView
+  // }
 ];
 
 const router = createRouter({
@@ -35,19 +36,29 @@ const router = createRouter({
   routes: routes
 })
 
-// check auth
-// router.beforeEach(async (to, from) => {
+// login guard
+// router.beforeEach(async (to, from, next) => {
+//   // guard route if needs "auth"
+//   if (to.matched.some(record => record.meta.auth)) {
+//     // Redirect the user to the login page if not authenticated:
+//     if (!isAuthenticated) {
+//       // localStorage.removeItem('token');
+//       // axios.defaults.headers.common['Authorization'] = 'Bearer';
 
-//   let isAuthenticated = false;
-//   if (
-//     // make sure the user is authenticated
-//     !isAuthenticated &&
-//     // ❗️ Avoid an infinite redirect
-//     to.name !== 'login'
-//   ) {
-//     // redirect the user to the login page
-//     return { name: 'login' }
+//       next({
+//         name: 'login',
+//         params: {
+//           notLoggedIn: true
+//         },
+//         query: {
+//           redirect: router.currentRoute.value.name
+//         }
+//       })
+//     } else next()
+//   } else {
+//     next()
 //   }
+
 // })
 
 export default router

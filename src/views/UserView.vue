@@ -1,13 +1,10 @@
 <script setup>
-import { checkAuth } from '@/composables/auth';
 import { onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const userData = reactive({
     user: {}
 });
-
-checkAuth();
 
 function fetchUserDetails() {
     axios.get('user').then(response => {

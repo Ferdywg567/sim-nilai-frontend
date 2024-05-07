@@ -2,6 +2,24 @@
 import { reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
+import { showAlert } from '../composables/swal';
+
+import "@/assets/js/pages-auth";
+import Swal from 'sweetalert2';
+
+let isAuthenticated = null;
+// get auth user
+axios.get('user').then(response => {
+  isAuthenticated = true;
+}).catch(error => {
+  isAuthenticated = false;
+});
+
+if (isAuthenticated) {
+  router.push({
+    path: route.query.redirect ?? 'dashboard'
+  })
+}
 
 const route = useRoute();
 const form = reactive({
@@ -11,11 +29,58 @@ const form = reactive({
 
 let redirect = '';
 
+// keluar alert jika hasil redirect
+if (route.query.redirect != null) {
+  redirect = route.query.redirect;
+
+  showAlert(['error', 'Maaf...', 'Sesi Login Anda Habis, Silahkan Login Terlebih Dahulu.'], {
+    willClose: function () {
+      router.replace({ query: null });
+    }
+  });
+}
+
 // fungsi ketika submit form login
 async function submit() {
-  router.push({
-    path: 'dashboard'
+  await axios.get('sanctum/csrf-cookie', {
+    baseURL: "http://localhost:8000/"
   })
+  await axios.post('login', form)
+    .then(response => {
+      const token = response.data.data.token;
+      console.log("🚀 ~ submit ~ token:", token)
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      router.push({ name: 'dashboard' });
+    })
+    .catch(error => {
+      const response = error.response
+
+      if (response.status == 422) {
+        let errListHtml = `<ul style="list-style-type: none; margin: 0; padding: 0">`
+
+        for (const [key, value] of Object.entries(response.data.errors)) {
+          console.log("🚀 ~ submit ~ value:", value)
+
+          errListHtml += `<li>${value}</li>`
+        }
+
+        errListHtml += `</ul>`
+
+        Swal.fire({
+          icon: "error",
+          title: "Maaf...",
+          html: errListHtml,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Maaf...",
+          text: response.data.message,
+        });
+      }
+    })
+    .finally(() => form.password = '');
 }
 
 document.documentElement.classList = "light-style layout-wide customizer-hide"; // rubah class html
