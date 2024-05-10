@@ -59,9 +59,9 @@ window.axios.get('p5-groups').then(function (response) {
                 </a>
             </li>
             <li class="menu-item">
-                <a href="app-email.html" class="menu-link">
+                <RouterLink to="/project-p5" class="menu-link">
                     Proyek P5
-                </a>
+                </RouterLink>
             </li>
             <li class="menu-item">
                 <a href="app-email.html" class="menu-link">
