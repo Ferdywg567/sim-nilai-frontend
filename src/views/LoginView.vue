@@ -6,6 +6,8 @@
 import { reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
+import Swal from 'sweetalert2';
+
 
 const route = useRoute();
 const form = reactive({
@@ -13,8 +15,13 @@ const form = reactive({
   password: ''
 });
 
-let redirect = '';
-
+if (route.params.loggedOut) {
+  Swal.fire({
+    title: "Berhasil!",
+    text: "Anda Telah Logout Dari Sistem.",
+    icon: "success"
+  });
+}
 // fungsi ketika submit form login
 
 async function submit(email, password) {
@@ -35,6 +42,34 @@ async function submit(email, password) {
 
 document.documentElement.classList = "light-style layout-wide customizer-hide"; // rubah class html
 </script>
+
+<!-- <script>
+export default {
+  data() {
+    return {
+      user: []
+    }
+  },
+  mounted() {
+    this.load();
+  },
+  methods: {
+    load() {
+      this.user = JSON.parse(localStorage.getItem('user'))
+    },
+    logout() {
+      window.axios.post('logout').then(response => {
+        router.push({
+          name: 'login',
+          params: {
+            loggedOut: true
+          }
+        })
+      })
+    }
+  }
+}
+</script> -->
 
 <template>
   <div class="container-xxl">

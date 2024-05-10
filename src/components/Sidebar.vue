@@ -1,13 +1,3 @@
-<!-- <script setup>
-const user = JSON.parse(localStorage.getItem('user'))
-let hasP5Group = false;
-const isAdmin = user.role_id == 1;
-window.axios.get('p5-groups').then(function (response) {
-    hasP5Group = response.data.data.length > 0;
-});
-</script> -->
-
-
 <script>
 export default {
     data() {
@@ -70,7 +60,24 @@ export default {
                     Dashboard
                 </RouterLink>
             </li>
-            <!-- Apps & Pages -->
+            <li class="menu-header small text-uppercase" v-show="hasP5Group || isAdmin">
+                <span class="menu-header-text" data-i18n="P5">Guru & Siswa</span>
+            </li>
+            <li class="menu-item">
+                <RouterLink to="/guru" class="menu-link">
+                    Data Guru
+                </RouterLink>
+            </li>
+            <li class="menu-item">
+                <RouterLink to="/siswa" class="menu-link">
+                    Data Siswa
+                </RouterLink>
+            </li>
+            <li class="menu-item">
+                <RouterLink to="/kelas" class="menu-link">
+                    Data Kelas
+                </RouterLink>
+            </li>
             <li class="menu-header small text-uppercase" v-show="hasP5Group || isAdmin">
                 <span class="menu-header-text" data-i18n="P5">P5</span>
             </li>
@@ -80,27 +87,18 @@ export default {
                 </RouterLink>
             </li>
             <li class="menu-item">
-                <a href="/dashboard" class="menu-link">
-                    Dimensi P5
+                <a href="/target-proyek-p5" class="menu-link">
+                    Target Capaian Profil P5
                 </a>
             </li>
             <li class="menu-item">
-                <RouterLink to="/project-p5" class="menu-link">
+                <RouterLink to="/proyek-p5" class="menu-link">
                     Proyek P5
                 </RouterLink>
             </li>
             <li class="menu-item">
                 <a href="/kelompok-p5" class="menu-link">
                     Kelompok P5
-                </a>
-            </li>
-            <li class="menu-header small text-uppercase">
-                <span class="menu-header-text" data-i18n="Nilai">Nilai</span>
-            </li>
-            <li class="menu-item">
-                <a href="app-email.html" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-mail"></i>
-                    <div data-i18n="Email">Email</div>
                 </a>
             </li>
 

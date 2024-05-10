@@ -9,16 +9,30 @@ import Sidebar from './../components/Sidebar.vue'
 import Footer from './../components/Footer.vue'
 
 import '../assets/js/dashboards-analytics.js'
+</script>
 
-document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
-
-const user = localStorage.getItem('user');
-
-let themes = {};
-
-window.axios.get('p5-themes').then((response) => {
-  themes = response.data.data;
-});
+<script>
+export default {
+  data() {
+    return {
+      gurus: []
+    };
+  },
+  mounted() {
+    this.load();
+  },
+  methods: {
+    load() {
+      window.axios.get('gurus').then(response => {
+        this.gurus = response.data.data;
+      }).catch(error => {
+        console.error('Error fetching gurus:', error);
+      });
+      
+      document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
+    }
+  }
+};
 </script>
 
 <template>
@@ -39,31 +53,32 @@ window.axios.get('p5-themes').then((response) => {
 
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="card card-body">
-              <h5>List Tema P5</h5>
+              <h5>List Guru yang Mengajar</h5>
               <div class="table-responsive text-nowrap">
                 <table class="table">
                   <thead>
                     <tr class="text-nowrap">
                       <th>No.</th>
                       <th>Nama</th>
-                      <!-- <th>Aksi</th> -->
+                      <th>NIP</th>
+                      <th>Tanggal Lahir</th>
+                      <th>Domisili</th>
+                      <th>Email</th>
+                      <th>Nomor Telepon</th>
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    <tr v-if="themes != []" v-for="theme in themes" :key="theme.id">
-                      <th scope="row">{{ theme.id }}</th>
-                      <td>{{ theme.name }}</td>
-                      <!-- <td>
-                        <button class="btn btn-warning me-2">
-                          Edit
-                        </button>
-                        <button class="btn btn-danger">
-                          Hapus
-                        </button>
-                      </td> -->
+                    <tr v-if="gurus.length > 0" v-for="guru in gurus" :key="guru.id">
+                      <td>{{ guru.id }}</td>
+                      <td>{{ guru.name }}</td>
+                      <td>{{ guru.nip }}</td>
+                      <td>{{ guru.dob }}</td>
+                      <td>{{ guru.address }}</td>
+                      <td>{{ guru.email }}</td>
+                      <td>{{ guru.phone }}</td>
                     </tr>
-                    <tr v-else=>
-                      <td colspan="3">Maaf, belum ada Data</td>
+                    <tr v-else>
+                      <td colspan="7">Maaf, belum ada Data.</td>
                     </tr>
                   </tbody>
                 </table>
