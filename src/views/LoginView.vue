@@ -12,10 +12,19 @@ const form = reactive({
 let redirect = '';
 
 // fungsi ketika submit form login
-async function submit() {
-  router.push({
-    path: 'dashboard'
-  })
+
+async function submit(email, password) {
+  try {
+    const email = this.form.email;
+    const password = this.form.password;
+    const response = await axios.post('/login', {
+      email: email,
+      password: password
+    });
+    router.push({ path: 'dashboard' });
+  } catch (error) {
+    alert('Verification Failed')
+  }
 }
 
 document.documentElement.classList = "light-style layout-wide customizer-hide"; // rubah class html
