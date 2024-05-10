@@ -34,8 +34,6 @@ export default {
 };
 </script>
 
-
-
 <template>
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-content-navbar">
@@ -69,12 +67,12 @@ export default {
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    <tr v-for="guru in gurus">
+                    <tr v-for="guru in gurus" :key="guru.id">
                       <th scope="row">{{ guru.id }}</th>
                       <td>{{ guru.name }}</td>
                       <td>{{ guru.nip }}</td>
                       <td>{{ guru.dob }}</td>
-                      <td>{{ guru.pob }}</td>
+                      <td>{{ guru.address }}</td>
                       <td>{{ guru.email }}</td>
                       <td>{{ guru.phone }}</td>
                     </tr>

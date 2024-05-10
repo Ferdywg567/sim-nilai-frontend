@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import P5ThemeView from '@/views/P5ThemeView.vue'
-
+import P5ProjectView from '@/views/p5/ProjectView.vue'
 const routes = [
   {
     path: '/',
@@ -33,6 +33,20 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+
+
+  // ==========
+  // === P5 ===
+  // ==========
+  {
+    path: '/project-p5',
+    name: 'projectP5',
+    component: P5ProjectView,
+    meta: {
+      auth: true,
+      role: 'admin'
+    }
   },
   // {
   //   path: '/user',
