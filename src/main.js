@@ -10,7 +10,7 @@ window.axios = axios;
 // Configure the default headers for axios:
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // Define the base URL for all axios requests:
-axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.baseURL = 'http://89.116.50.182/api';
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 // If there's a token in the localStorage, set it as the default Authorization header:

@@ -13,13 +13,28 @@ import '../assets/js/dashboards-analytics.js'
 document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
 
 const user = localStorage.getItem('user');
-
-let gurus = {};
-
-window.axios.get('gurus').then((response) => {
-  gurus = response.data.data;
-});
 </script>
+
+<script>
+export default {
+  data() {
+    return {
+      gurus: []
+    };
+  },
+  mounted() {
+    window.axios.get('gurus')
+      .then(response => {
+        this.gurus = response.data.data;
+      })
+      .catch(error => {
+        console.error('Error fetching gurus:', error);
+      });
+  }
+};
+</script>
+
+
 
 <template>
   <!-- Layout wrapper -->
