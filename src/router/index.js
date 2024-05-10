@@ -3,6 +3,8 @@ import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import P5ThemeView from '@/views/P5ThemeView.vue'
 import P5ProjectView from '@/views/p5/ProjectView.vue'
+import P5GroupView from '@/views/P5GroupView.vue'
+
 const routes = [
   {
     path: '/',
@@ -15,6 +17,15 @@ const routes = [
     path: '/tema-p5',
     name: 'temaP5',
     component: P5ThemeView,
+    meta: {
+      auth: true,
+      role: 'admin'
+    }
+  },
+  {
+    path: '/kelompok-p5',
+    name: 'kelompokP5',
+    component: P5GroupView,
     meta: {
       auth: true,
       role: 'admin'

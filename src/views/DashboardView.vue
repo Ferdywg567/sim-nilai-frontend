@@ -67,14 +67,17 @@ export default {
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    <tr v-for="guru in gurus" :key="guru.id">
-                      <th scope="row">{{ guru.id }}</th>
+                    <tr v-if="gurus.length > 0" v-for="guru in gurus" :key="guru.id">
+                      <td>{{ guru.id }}</td>
                       <td>{{ guru.name }}</td>
                       <td>{{ guru.nip }}</td>
                       <td>{{ guru.dob }}</td>
                       <td>{{ guru.address }}</td>
                       <td>{{ guru.email }}</td>
                       <td>{{ guru.phone }}</td>
+                    </tr>
+                    <tr v-else>
+                      <td colspan="7">Maaf, belum ada Data.</td>
                     </tr>
                   </tbody>
                 </table>

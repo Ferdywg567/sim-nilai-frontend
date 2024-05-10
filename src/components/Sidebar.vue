@@ -1,11 +1,37 @@
-<script setup>
+<!-- <script setup>
 const user = JSON.parse(localStorage.getItem('user'))
 let hasP5Group = false;
 const isAdmin = user.role_id == 1;
 window.axios.get('p5-groups').then(function (response) {
     hasP5Group = response.data.data.length > 0;
 });
+</script> -->
+
+
+<script>
+export default {
+    data() {
+        return {
+            user: [],
+            hasP5Group: false,
+            isAdmin: false
+        }
+    },
+    mounted() {
+        this.load();
+    },
+    methods: {
+        load() {
+            this.user = JSON.parse(localStorage.getItem('user'))
+            this.isAdmin = this.user.role_id == 1;
+            window.axios.get('p5-groups').then(response => {
+                this.hasP5Group = response.data.data.length > 0;
+            });
+        }
+    }
+}
 </script>
+
 <template>
     <!-- Menu -->
     <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -54,7 +80,7 @@ window.axios.get('p5-groups').then(function (response) {
                 </RouterLink>
             </li>
             <li class="menu-item">
-                <a href="app-email.html" class="menu-link">
+                <a href="/dashboard" class="menu-link">
                     Dimensi P5
                 </a>
             </li>
@@ -64,7 +90,7 @@ window.axios.get('p5-groups').then(function (response) {
                 </RouterLink>
             </li>
             <li class="menu-item">
-                <a href="app-email.html" class="menu-link">
+                <a href="/kelompok-p5" class="menu-link">
                     Kelompok P5
                 </a>
             </li>
