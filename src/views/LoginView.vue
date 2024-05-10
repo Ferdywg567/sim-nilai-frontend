@@ -1,3 +1,7 @@
+<style scoped>
+  @import "@/assets/vendor/css/pages/page-auth.css";
+</style>
+
 <script setup>
 import { reactive } from 'vue';
 import { useRoute } from 'vue-router';
@@ -21,6 +25,8 @@ async function submit(email, password) {
       email: email,
       password: password
     });
+    localStorage.setItem('token', response.data.data.token)
+    localStorage.setItem('user', response.data.data.user)
     router.push({ path: 'dashboard' });
   } catch (error) {
     alert('Verification Failed')
@@ -29,10 +35,6 @@ async function submit(email, password) {
 
 document.documentElement.classList = "light-style layout-wide customizer-hide"; // rubah class html
 </script>
-
-<!-- Page CSS -->
-<!-- Page -->
-<link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css" />
 
 <template>
   <div class="container-xxl">

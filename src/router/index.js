@@ -37,28 +37,28 @@ const router = createRouter({
 })
 
 // login guard
-// router.beforeEach(async (to, from, next) => {
-//   // guard route if needs "auth"
-//   if (to.matched.some(record => record.meta.auth)) {
-//     // Redirect the user to the login page if not authenticated:
-//     if (!isAuthenticated) {
-//       // localStorage.removeItem('token');
-//       // axios.defaults.headers.common['Authorization'] = 'Bearer';
+router.beforeEach(async (to, from, next) => {
+  // guard route if needs "auth"
+  if (to.matched.some(record => record.meta.auth)) {
+    // Redirect the user to the login page if not authenticated:
+    if (localStorage.getItem('token') == null) {
+      // localStorage.removeItem('token');
+      // axios.defaults.headers.common['Authorization'] = 'Bearer';
 
-//       next({
-//         name: 'login',
-//         params: {
-//           notLoggedIn: true
-//         },
-//         query: {
-//           redirect: router.currentRoute.value.name
-//         }
-//       })
-//     } else next()
-//   } else {
-//     next()
-//   }
+      next({
+        name: 'login',
+        params: {
+          notLoggedIn: true
+        },
+        query: {
+          redirect: router.currentRoute.value.name
+        }
+      })
+    } else next()
+  } else {
+    next()
+  }
 
-// })
+})
 
 export default router
