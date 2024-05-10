@@ -15,7 +15,6 @@ document.documentElement.classList = "light-style layout-navbar-fixed layout-men
 const user = localStorage.getItem('user');
 </script>
 
-
 <script>
 export default {
   data() {
@@ -34,6 +33,7 @@ export default {
   }
 };
 </script>
+
 <template>
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-content-navbar">
