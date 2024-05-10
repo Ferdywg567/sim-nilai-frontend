@@ -1,5 +1,5 @@
 <style scoped>
-  @import "@/assets/vendor/css/pages/cards-advance.css";
+  @import "src/assets/vendor/css/pages/cards-advance.css";
 </style>
 
 <script setup>
@@ -8,9 +8,9 @@ import Navbar from './../components/Navbar.vue'
 import Sidebar from './../components/Sidebar.vue'
 import Footer from './../components/Footer.vue'
 
-import '@/assets/js/dashboards-analytics.js'
+import '../assets/js/dashboards-analytics.js'
 
-document.documentElement.classList = "light-style layout-wide customizer-hide"; // rubah class html
+document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
 
 const user = localStorage.getItem('user');
 </script>

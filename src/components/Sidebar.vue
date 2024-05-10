@@ -29,7 +29,7 @@
 
         <div class="menu-inner-shadow"></div>
 
-        <ul class="menu-inner py-1">
+        <ul class="menu-inner py-1 overflow-auto">
             <!-- Dashboards -->
             <li class="menu-item active open">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
