@@ -42,7 +42,7 @@ const routes = [
   {
     path: '/project-p5',
     name: 'projectP5',
-    component: P5ThemeView,
+    component: P5ProjectView,
     meta: {
       auth: true,
       role: 'admin'
