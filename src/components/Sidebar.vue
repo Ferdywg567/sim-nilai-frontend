@@ -10,7 +10,7 @@ window.axios.get('p5-groups').then(function (response) {
     <!-- Menu -->
     <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <RouterLink to="/dashboard" class="app-brand-link">
                 <!-- <span class="app-brand-logo demo">
                     <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -25,8 +25,8 @@ window.axios.get('p5-groups').then(function (response) {
                             fill="#7367F0" />
                     </svg>
                 </span> -->
-                <span class="app-brand-text demo menu-text fw-bold">Siakad</span>
-            </a>
+                <span class="app-brand-text demo menu-text fw-bold">SiAkad - Nilai</span>
+            </RouterLink>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
                 <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
@@ -39,34 +39,33 @@ window.axios.get('p5-groups').then(function (response) {
         <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <li class="menu-item active">
-                <a href="app-email.html" class="menu-link">
+                <RouterLink to="/tema-p5" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                    <div data-i18n="Email">Dashboard</div>
-                </a>
+                    Dashboard
+                </RouterLink>
             </li>
             <!-- Apps & Pages -->
             <li class="menu-header small text-uppercase" v-show="hasP5Group || isAdmin">
                 <span class="menu-header-text" data-i18n="P5">P5</span>
             </li>
             <li class="menu-item">
-                <RouterLink to="/tema-p5" class="menu-link">Go to About</RouterLink>
+                <RouterLink to="/tema-p5" class="menu-link">
+                    Tema P5
+                </RouterLink>
             </li>
             <li class="menu-item">
                 <a href="app-email.html" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-mail"></i>
-                    <div data-i18n="Email">Dimensi P5</div>
+                    Dimensi P5
                 </a>
             </li>
             <li class="menu-item">
                 <a href="app-email.html" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-mail"></i>
-                    <div data-i18n="Email">Proyek P5</div>
+                    Proyek P5
                 </a>
             </li>
             <li class="menu-item">
                 <a href="app-email.html" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-mail"></i>
-                    <div data-i18n="Email">Kelompok P5</div>
+                    Kelompok P5
                 </a>
             </li>
             <li class="menu-header small text-uppercase">

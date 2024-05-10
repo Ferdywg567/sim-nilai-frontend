@@ -14,11 +14,13 @@ document.documentElement.classList = "light-style layout-navbar-fixed layout-men
 
 const user = localStorage.getItem('user');
 
-let gurus = {};
+let gurus = [];
 
 window.axios.get('gurus').then((response) => {
   gurus = response.data.data;
+  console.log("🚀 ~ window.axios.get ~ gurus:", gurus)
 });
+const dlink = [];
 </script>
 
 <template>
@@ -54,12 +56,12 @@ window.axios.get('gurus').then((response) => {
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    <tr v-for="guru in gurus">
+                    <tr v-for="guru in gurus" :key="guru.id">
                       <th scope="row">{{ guru.id }}</th>
                       <td>{{ guru.name }}</td>
                       <td>{{ guru.nip }}</td>
                       <td>{{ guru.dob }}</td>
-                      <td>{{ guru.pob }}</td>
+                      <td>{{ guru.address }}</td>
                       <td>{{ guru.email }}</td>
                       <td>{{ guru.phone }}</td>
                     </tr>
