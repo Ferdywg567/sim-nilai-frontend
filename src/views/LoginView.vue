@@ -1,5 +1,5 @@
 <style scoped>
-  @import "@/assets/vendor/css/pages/page-auth.css";
+@import "@/assets/vendor/css/pages/page-auth.css";
 </style>
 
 <script setup>
@@ -26,7 +26,7 @@ async function submit(email, password) {
       password: password
     });
     localStorage.setItem('token', response.data.data.token)
-    localStorage.setItem('user', response.data.data.user)
+    localStorage.setItem('user', JSON.stringify(response.data.data.user))
     router.push({ path: 'dashboard' });
   } catch (error) {
     alert('Verification Failed')

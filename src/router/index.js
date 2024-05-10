@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
+import P5ThemeView from '@/views/P5ThemeView.vue'
 
 const routes = [
   {
@@ -8,6 +9,15 @@ const routes = [
     name: 'home',
     component: () => {
       router.push({ name: 'login' })
+    }
+  },
+  {
+    path: '/tema-p5',
+    name: 'temaP5',
+    component: P5ThemeView,
+    meta: {
+      auth: true,
+      role: 'admin'
     }
   },
   {
