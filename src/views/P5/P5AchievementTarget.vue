@@ -35,13 +35,11 @@ export default {
       document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
     },
     getPhases() {
-      console.log("🚀 ~ getPhases ~ this.form:", this.form)
       window.axios.get('p5-phases', {
         phase: this.form.phase,
         dimension_id: this.form.dimension_id,
       }).then(response => {
         this.phases = response.data.data;
-        console.log("🚀 ~ getPhases ~ this.phases:", this.phases)
       }).catch(error => {
         console.error('Error fetching groups:', error);
       });
@@ -69,7 +67,7 @@ export default {
 
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="card card-body">
-              <h5>List Kelompok P5</h5>
+              <h5>List Target Capaian Profil P5</h5>
               <div class="row">
                 <div class="col-12 col-md-6">
                   <label class="form-label">Pilih Dimensi Profil</label>

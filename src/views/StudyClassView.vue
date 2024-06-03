@@ -70,7 +70,7 @@ export default {
                       <td>{{ studyClass.students?.length ?? 0 }} Siswa</td>
                     </tr>
                     <tr v-else>
-                      <td colspan="7">Maaf, belum ada Data.</td>
+                      <td colspan="7" class="text-center">Maaf, belum ada Data.</td>
                     </tr>
                   </tbody>
                 </table>

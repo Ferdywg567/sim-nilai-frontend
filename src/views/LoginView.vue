@@ -7,13 +7,11 @@ import { reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
 import Swal from 'sweetalert2';
-
-
 const route = useRoute();
-const form = reactive({
-  email: '',
-  password: ''
-});
+// const form = reactive({
+//   email: '',
+//   password: ''
+// });
 
 if (route.params.loggedOut) {
   Swal.fire({
@@ -24,52 +22,40 @@ if (route.params.loggedOut) {
 }
 // fungsi ketika submit form login
 
-async function submit(email, password) {
-  try {
-    const email = this.form.email;
-    const password = this.form.password;
-    const response = await axios.post('/login', {
-      email: email,
-      password: password
-    });
-    localStorage.setItem('token', response.data.data.token)
-    localStorage.setItem('user', JSON.stringify(response.data.data.user))
-    router.push({ path: 'dashboard' });
-  } catch (error) {
-    alert('Verification Failed')
-  }
-}
-
 document.documentElement.classList = "light-style layout-wide customizer-hide"; // rubah class html
 </script>
 
-<!-- <script>
+<script>
 export default {
   data() {
     return {
-      user: []
+      form: {
+        email: '',
+        password: ''
+      },
     }
   },
-  mounted() {
-    this.load();
-  },
   methods: {
-    load() {
-      this.user = JSON.parse(localStorage.getItem('user'))
-    },
-    logout() {
-      window.axios.post('logout').then(response => {
-        router.push({
-          name: 'login',
-          params: {
-            loggedOut: true
-          }
-        })
-      })
+    submit() {
+
+      const email = this.form.email;
+      const password = this.form.password;
+
+      window.axios.post('/login', {
+        email: email,
+        password: password
+      }).then(response => {
+        localStorage.setItem('token', response.data.data.token)
+        localStorage.setItem('user', JSON.stringify(response.data.data.user))
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.token}`;
+        router.push({ path: 'dashboard' });
+      }).catch(error => {
+        console.error('Error Authentiacting Account:', error);
+      });
     }
   }
 }
-</script> -->
+</script>
 
 <template>
   <div class="container-xxl">

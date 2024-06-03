@@ -9,16 +9,30 @@ import Sidebar from './../../components/Sidebar.vue'
 import Footer from './../../components/Footer.vue'
 
 import '../../assets/js/dashboards-analytics.js'
+</script>
 
-document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
+<script>
+export default {
+  data() {
+    return {
+      themes: []
+    };
+  },
+  mounted() {
+    this.load();
+  },
+  methods: {
+    load() {
+      window.axios.get('p5-themes').then(response => {
+        this.themes = response.data.data;
+      }).catch(error => {
+        console.error('Error fetching themes:', error);
+      });
 
-const user = localStorage.getItem('user');
-
-let themes = {};
-
-window.axios.get('p5-themes').then((response) => {
-  themes = response.data.data;
-});
+      document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
+    }
+  }
+};
 </script>
 
 <template>
@@ -50,7 +64,7 @@ window.axios.get('p5-themes').then((response) => {
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    <tr v-if="themes != []" v-for="theme in themes" :key="theme.id">
+                    <tr v-if="themes?.length > 0" v-for="theme in themes" :key="theme.id">
                       <th scope="row">{{ theme.id }}</th>
                       <td>{{ theme.name }}</td>
                       <!-- <td>
@@ -62,8 +76,8 @@ window.axios.get('p5-themes').then((response) => {
                         </button>
                       </td> -->
                     </tr>
-                    <tr v-else=>
-                      <td colspan="3">Maaf, belum ada Data</td>
+                    <tr v-else>
+                      <td colspan="2" class="text-center">Maaf, belum ada Data</td>
                     </tr>
                   </tbody>
                 </table>

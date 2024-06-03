@@ -108,7 +108,7 @@ export default {
         editProject() {
             // hapus dlu agar tidak ikut request->all()
             delete this.selectedProject.phases
-            delete project.theme
+            delete this.selectedProject.theme
 
             window.axios.put(`p5-projects/${this.selectedProject.id}`, {
                 code: this.selectedProject.code,
@@ -221,7 +221,7 @@ export default {
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                        <tr v-for="project in projects" :key="project.id">
+                                        <tr v-if="projects?.length > 0" v-for="project in projects" :key="project.id">
                                             <th scope="row">{{ project.id }}</th>
                                             <td>{{ project.name }}</td>
                                             <td>{{ project.description }}</td>
@@ -246,6 +246,9 @@ export default {
                                                             class="d-trash d-sm-inline-block">Hapus</span></span>
                                                 </button>
                                             </td>
+                                        </tr>
+                                        <tr v-else>
+                                            <td colspan="5" class="text-center">Maaf, Belum ada Data</td>
                                         </tr>
                                     </tbody>
                                 </table>

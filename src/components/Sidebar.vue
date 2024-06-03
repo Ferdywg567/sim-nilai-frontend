@@ -55,7 +55,7 @@ export default {
         <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <li class="menu-item active">
-                <RouterLink to="/tema-p5" class="menu-link">
+                <RouterLink to="/dashboard" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-smart-home"></i>
                     Dashboard
                 </RouterLink>

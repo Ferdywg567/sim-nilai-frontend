@@ -14,6 +14,7 @@ import '../../assets/js/dashboards-analytics.js'</script>
 export default {
   data() {
     return {
+      gurus: [],
       groups: [],
       classes: [],
       students: [],
@@ -21,6 +22,7 @@ export default {
       selectedGroup: [],
       selectedProjects: [],
       selectedProjectIds: [],
+      modalStatus: '',
     }
   },
   mounted() {
@@ -30,13 +32,13 @@ export default {
     load() {
       window.axios.get('p5-groups').then(response => {
         this.groups = response.data.data;
-        console.log("🚀 ~ window.axios.get ~ this.groups:", this.groups)
       }).catch(error => {
         console.error('Error fetching groups:', error);
       });
 
       this.getProjects();
       this.getStudents();
+      this.getGurus();
       document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
     },
     selectGroup(group) {
@@ -46,15 +48,25 @@ export default {
 
     },
     closeModal() {
+      $('.modal').modal('hide');
+
       this.selectedProjects = [];
+      this.selectedProjectIds = [];
+      this.selectedGroup = [];
     },
     getProjects() {
-      this.projects = this.selectedGroup.projects;
-      // window.axios.get('p5-projects').then(response => {
-      //   this.projects = response.data.data;
-      // }).catch(error => {
-      //   console.error('Error fetching projects:', error);
-      // });
+      window.axios.get('p5-projects').then(response => {
+        this.projects = response.data.data;
+      }).catch(error => {
+        console.error('Error fetching projects:', error);
+      });
+    },
+    getGurus() {
+      window.axios.get('gurus').then(response => {
+        this.gurus = response.data.data;
+      }).catch(error => {
+        console.error('Error fetching gurus:', error);
+      });
     },
     addProjectToGroup(project) {
       window.axios.post(`p5-groups/${this.selectedGroup.id}/projects/${project.id}`).then(response => {
@@ -120,6 +132,81 @@ export default {
         console.error('Error deleting project:', error);
       });
     },
+    setModalStatus(status) {
+      this.modalStatus = status;
+    },
+
+    saveGroup() {
+      if (this.modalStatus == 'Tambah') {
+        this.createGroup();
+        return
+      }
+
+      this.editGroup();
+    },
+    createGroup() {
+      window.axios.post(`p5-groups`, {
+        guru_id: this.selectedGroup.guru_id,
+        name: this.selectedGroup.name,
+        grade: this.selectedGroup.grade,
+        phase: this.selectedGroup.phase,
+      }).then(response => {
+        Swal.fire({
+          title: "Berhasil!",
+          text: response.data.message,
+          icon: "success"
+        });
+        this.load();
+        this.closeModal();
+      }).catch(error => {
+        console.error('Error adding group:', error);
+      });
+    },
+    editGroup() {
+      window.axios.put(`p5-groups/${this.selectedGroup.id}`, {
+        guru_id: this.selectedGroup.guru_id,
+        name: this.selectedGroup.name,
+        grade: this.selectedGroup.grade,
+        phase: this.selectedGroup.phase,
+      }).then(response => {
+        Swal.fire({
+          title: "Berhasil!",
+          text: response.data.message,
+          icon: "success"
+        });
+        this.load();
+        this.closeModal();
+      }).catch(error => {
+        console.error('Error editing group:', error);
+      });
+    },
+    deleteGroupConfirmation(group) {
+      Swal.fire({
+        title: "Yakin ingin menghapus Kelompok?",
+        text: "Kelompok yang dihapus tidak dapat dipulihkan",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Iya, Hapus Data!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.deleteGroup(group);
+        }
+      });
+    },
+    deleteGroup(group) {
+      window.axios.delete(`p5-groups/${group.id}`).then(response => {
+        Swal.fire({
+          title: "Berhasil!",
+          text: response.data.message,
+          icon: "success"
+        });
+        this.load();
+      }).catch(error => {
+        console.error('Error deleting group:', error);
+      });
+    }
   }
 }
 </script>
@@ -147,7 +234,7 @@ export default {
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
-                <tr v-if="projects != []" v-for="project in projects" :key="project.id">
+                <tr v-if="projects?.length" v-for="project in projects" :key="project.id">
                   <th scope="row">{{ project.id }}</th>
                   <td>{{ project.theme.name }}</td>
                   <td>{{ project.name }}</td>
@@ -165,7 +252,7 @@ export default {
                   </td>
                 </tr>
                 <tr v-else>
-                  <td colspan="3">Maaf, belum ada Data</td>
+                  <td colspan="5" class="text-center">Maaf, belum ada Data</td>
                 </tr>
               </tbody>
             </table>
@@ -175,6 +262,54 @@ export default {
     </div>
   </div>
   <!--/ List Project -->
+
+  <!-- Add Group -->
+  <div class="modal fade" id="GroupForm" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Form {{ modalStatus }} Kelompok P5</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            @click="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+
+          <!-- project name -->
+          <div class="mb-2">
+            <span><label class="form-label" for="project_name">Nama Kelompok</label></span>
+            <input type="text" class="form-control" id="project_name" v-model="selectedGroup.name">
+          </div>
+
+          <hr>
+          <!-- theme project -->
+          <div class="mb-2">
+            <label class="form-label" for="theme_project">Pilih Koordinator P5</label>
+            <select class="form-control" name="" id="theme_project" v-model="selectedGroup.guru_id">
+              <option v-for="guru in gurus" :value="guru.id">{{ guru.name }}</option>
+            </select>
+          </div>
+
+          <!-- phase project -->
+          <div class="mb-2">
+            <label class="form-label" for="grade_project">Pilih Tingkat</label>
+            <select v-model="selectedGroup.grade" class="form-control" name="" id="grade_project">
+              <option>10</option>
+            </select>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label" for="phase_project">Pilih Fase</label>
+            <select v-model="selectedGroup.phase" class="form-control" name="" id="phase_project">
+              <option>E</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary col-md-12" id="#submit-add_project" @click="saveGroup()">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!--/ List Kelas -->
   <div class="modal fade" id="classList" tabindex="-1" aria-hidden="true">
@@ -196,7 +331,7 @@ export default {
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
-                <tr v-if="classes != []" v-for="studyClass in classes" :key="studyClass.id">
+                <tr v-if="classes?.length > 0" v-for="studyClass in classes" :key="studyClass.id">
                   <th scope="row">{{ studyClass.id }}</th>
                   <td>{{ studyClass.name }}</td>
                   <td>{{ studyClass.students?.length ?? 0 }}</td>
@@ -208,7 +343,7 @@ export default {
                   </td>
                 </tr>
                 <tr v-else>
-                  <td colspan="3">Maaf, belum ada Data</td>
+                  <td colspan="4" class="text-center">Maaf, belum ada Data</td>
                 </tr>
               </tbody>
             </table>
@@ -240,7 +375,7 @@ export default {
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
-                <tr v-if="students != []" v-for="student in students" :key="student.id">
+                <tr v-if="students?.length > 0" v-for="student in students" :key="student.id">
                   <th scope="row">{{ student.id }}</th>
                   <td>{{ student.name }}</td>
                   <td>{{ student.nis }}</td>
@@ -253,7 +388,7 @@ export default {
                   </td>
                 </tr>
                 <tr v-else>
-                  <td colspan="3">Maaf, belum ada Data</td>
+                  <td colspan="5" class="text-center">Maaf, belum ada Data</td>
                 </tr>
               </tbody>
             </table>
@@ -281,7 +416,14 @@ export default {
 
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="card card-body">
-              <h5>List Kelompok P5</h5>
+              <div class="d-flex justify-content-between">
+                <h5>List Kelompok P5</h5>
+                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#GroupForm"
+                  @click="setModalStatus('Tambah')">
+                  <i class="ti ti-xs ti-plus me-1"></i>
+                  Buat Kelompok
+                </button>
+              </div>
               <div class="table-responsive text-nowrap">
                 <table class="table">
                   <thead>
@@ -296,14 +438,15 @@ export default {
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    <tr v-if="groups != []" v-for="group in groups" :key="group.id">
+                    <tr v-if="groups?.length > 0" v-for="group in groups" :key="group.id">
                       <th scope="row">{{ group.id }}</th>
                       <td>{{ group.name }}</td>
                       <td>{{ group.grade }}</td>
                       <td>{{ group.phase }}</td>
                       <td>{{ group.coordinator.name }}</td>
                       <td>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#studentList" @click="selectGroup(group); getStudents()">
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#studentList"
+                          @click="selectGroup(group); getStudents()">
                           <i class="ti ti-eye me-0 me-sm-1 ti-xs"></i>
                           Lihat
                         </button>
@@ -322,16 +465,19 @@ export default {
                               data-bs-target="#projectList" @click="getProjects(); selectGroup(group)"><i
                                 class="ti ti-plus me-2"></i>
                               Tambah Proyek</a>
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="ti ti-pencil me-2"></i>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
+                              data-bs-target="#GroupForm" @click="setModalStatus('Edit'); selectGroup(group)"><i
+                                class="ti ti-pencil me-2"></i>
                               Edit</a>
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="ti ti-trash me-2"></i>
+                            <a class="dropdown-item" href="javascript:void(0);" @click="deleteGroupConfirmation(group)"><i
+                                class="ti ti-trash me-2"></i>
                               Delete</a>
                           </div>
                         </div>
                       </td>
                     </tr>
                     <tr v-else>
-                      <td colspan="3">Maaf, belum ada Data</td>
+                      <td colspan="6" class="text-center">Maaf, belum ada Data</td>
                     </tr>
                   </tbody>
                 </table>
