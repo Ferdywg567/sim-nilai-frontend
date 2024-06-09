@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     load() {
-      window.axios.get('p5-themes').then(response => {
+      window.axios.get('admin/p5-themes').then(response => {
         this.themes = response.data.data;
       }).catch(error => {
         console.error('Error fetching themes:', error);

@@ -14,9 +14,12 @@ export default {
         load() {
             this.user = JSON.parse(localStorage.getItem('user'))
             this.isAdmin = this.user.role_id == 1;
-            window.axios.get('p5-groups').then(response => {
-                this.hasP5Group = response.data.data.length > 0;
-            });
+
+            if (!this.isAdmin) {
+                window.axios.get('guru/p5/groups').then(response => {
+                    this.hasP5Group = response.data.data.length > 0;
+                });
+            }
         }
     }
 }
@@ -51,7 +54,6 @@ export default {
         </div>
 
         <div class="menu-inner-shadow"></div>
-
         <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <li class="menu-item active">
@@ -60,23 +62,46 @@ export default {
                     Dashboard
                 </RouterLink>
             </li>
-            <li class="menu-header small text-uppercase" v-show="hasP5Group || isAdmin">
-                <span class="menu-header-text" data-i18n="P5">Guru & Siswa</span>
+            <li class="menu-header small text-uppercase" v-if="isAdmin">
+                <span class="menu-header-text">Guru & Siswa</span>
             </li>
-            <li class="menu-item">
+            <li class="menu-item" v-if="isAdmin">
                 <RouterLink to="/guru" class="menu-link">
                     Data Guru
                 </RouterLink>
             </li>
-            <li class="menu-item">
+            <li class="menu-item" v-if="isAdmin">
                 <RouterLink to="/siswa" class="menu-link">
                     Data Siswa
                 </RouterLink>
             </li>
-            <li class="menu-item">
+            <li class="menu-item" v-if="isAdmin">
                 <RouterLink to="/kelas" class="menu-link">
                     Data Kelas
                 </RouterLink>
+            </li>
+            <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Mata Pelajaran</span>
+            </li>
+            <li class="menu-item">
+                <RouterLink to="/tema-p5" class="menu-link">
+                    Tujuan Pembelajaran
+                </RouterLink>
+            </li>
+            <li class="menu-item">
+                <a href="/target-proyek-p5" class="menu-link">
+                    Target Capaian Profil P5
+                </a>
+            </li>
+            <li class="menu-item">
+                <RouterLink to="/proyek-p5" class="menu-link">
+                    Proyek P5
+                </RouterLink>
+            </li>
+            <li class="menu-item">
+                <a href="/kelompok-p5" class="menu-link">
+                    Kelompok P5
+                </a>
             </li>
             <li class="menu-header small text-uppercase" v-show="hasP5Group || isAdmin">
                 <span class="menu-header-text" data-i18n="P5">P5</span>

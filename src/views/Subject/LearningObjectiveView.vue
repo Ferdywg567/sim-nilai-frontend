@@ -9,13 +9,15 @@ import Sidebar from './../components/Sidebar.vue'
 import Footer from './../components/Footer.vue'
 
 import '../assets/js/dashboards-analytics.js'
+document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
 </script>
 
 <script>
 export default {
   data() {
     return {
-      students: []
+      objectives: [],
+      selectedSubject: [],
     };
   },
   mounted() {
@@ -23,13 +25,7 @@ export default {
   },
   methods: {
     load() {
-      window.axios.get('admin/students').then(response => {
-        this.students = response.data.data;
-      }).catch(error => {
-        console.error('Error fetching students:', error);
-      });
-
-      document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
+      console.log('test');
     }
   }
 };
@@ -53,29 +49,29 @@ export default {
 
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="card card-body">
-              <h5>List Data Siswa yang Diampu</h5>
+              <h5>List Guru yang Mengajar</h5>
               <div class="table-responsive text-nowrap">
                 <table class="table">
                   <thead>
                     <tr class="text-nowrap">
                       <th>No.</th>
                       <th>Nama</th>
-                      <th>NIS</th>
+                      <th>NIP</th>
                       <th>Tanggal Lahir</th>
                       <th>Domisili</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Kelas</th>
+                      <th>Email</th>
+                      <th>Nomor Telepon</th>
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    <tr v-if="students.length > 0" v-for="student in students" :key="student.id">
-                      <td>{{ student.id }}</td>
-                      <td>{{ student.name }}</td>
-                      <td>{{ student.nis }}</td>
-                      <td>{{ student.dob }}</td>
-                      <td>{{ student.address }}</td>
-                      <td>{{ student.gender }}</td>
-                      <td>{{ student.study_class?.name }}</td>
+                    <tr v-if="gurus.length > 0" v-for="guru in gurus" :key="guru.id">
+                      <td>{{ guru.id }}</td>
+                      <td>{{ guru.name }}</td>
+                      <td>{{ guru.nip }}</td>
+                      <td>{{ guru.dob }}</td>
+                      <td>{{ guru.address }}</td>
+                      <td>{{ guru.email }}</td>
+                      <td>{{ guru.phone }}</td>
                     </tr>
                     <tr v-else>
                       <td colspan="7" class="text-center">Maaf, belum ada Data.</td>

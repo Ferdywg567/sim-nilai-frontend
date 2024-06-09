@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     load() {
-      window.axios.get('gurus').then(response => {
+      window.axios.get('admin/gurus').then(response => {
         this.gurus = response.data.data;
       }).catch(error => {
         console.error('Error fetching gurus:', error);

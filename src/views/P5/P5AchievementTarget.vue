@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     load() {
-      window.axios.get('p5-dimensions').then(response => {
+      window.axios.get('admin/p5-dimensions').then(response => {
         this.dimensions = response.data.data;
       }).catch(error => {
         console.error('Error fetching groups:', error);
@@ -35,7 +35,7 @@ export default {
       document.documentElement.classList = "light-style layout-navbar-fixed layout-menu-fixed layout-compact"; // rubah class html
     },
     getPhases() {
-      window.axios.get('p5-phases', {
+      window.axios.get('admin/p5-phases', {
         phase: this.form.phase,
         dimension_id: this.form.dimension_id,
       }).then(response => {

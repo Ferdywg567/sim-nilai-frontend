@@ -55,21 +55,21 @@ export default {
       this.selectedGroup = [];
     },
     getProjects() {
-      window.axios.get('p5-projects').then(response => {
+      window.axios.get('admin/p5-projects').then(response => {
         this.projects = response.data.data;
       }).catch(error => {
         console.error('Error fetching projects:', error);
       });
     },
     getGurus() {
-      window.axios.get('gurus').then(response => {
+      window.axios.get('admin/gurus').then(response => {
         this.gurus = response.data.data;
       }).catch(error => {
         console.error('Error fetching gurus:', error);
       });
     },
     addProjectToGroup(project) {
-      window.axios.post(`p5-groups/${this.selectedGroup.id}/projects/${project.id}`).then(response => {
+      window.axios.post(`admin/p5-groups/${this.selectedGroup.id}/projects/${project.id}`).then(response => {
         this.selectedProjectIds.push(project.id);
         Swal.fire({
           title: "Berhasil!",
@@ -81,7 +81,7 @@ export default {
       });
     },
     deleteProjectFromGroup(project) {
-      window.axios.delete(`p5-groups/${this.selectedGroup.id}/projects/${project.id}`).then(response => {
+      window.axios.delete(`admin/p5-groups/${this.selectedGroup.id}/projects/${project.id}`).then(response => {
         this.selectedProjectIds.splice(this.selectedProjectIds.indexOf(project.id), 1);
         Swal.fire({
           title: "Berhasil!",
@@ -93,7 +93,7 @@ export default {
       });
     },
     getStudyClass() {
-      window.axios.get('classes').then(response => {
+      window.axios.get('admin/classes').then(response => {
         this.classes = response.data.data;
       }).catch(error => {
         console.error('Error fetching classes:', error);
@@ -109,7 +109,7 @@ export default {
     },
     addStudentsFromClass(studyClass) {
       console.log("🚀 ~ addStudentsFromClass ~ studyClass:", studyClass)
-      window.axios.post(`p5-groups/${this.selectedGroup.id}/class/${studyClass.id}`).then(response => {
+      window.axios.post(`admin/p5-groups/${this.selectedGroup.id}/class/${studyClass.id}`).then(response => {
         Swal.fire({
           title: "Berhasil!",
           text: response.data.message,
@@ -121,7 +121,7 @@ export default {
       });
     },
     deleteStudentFromGroup(student) {
-      window.axios.delete(`p5-groups/${this.selectedGroup.id}/students/${student.id}`).then(response => {
+      window.axios.delete(`admin/p5-groups/${this.selectedGroup.id}/students/${student.id}`).then(response => {
         Swal.fire({
           title: "Berhasil!",
           text: response.data.message,
@@ -145,7 +145,7 @@ export default {
       this.editGroup();
     },
     createGroup() {
-      window.axios.post(`p5-groups`, {
+      window.axios.post(`admin/p5-groups`, {
         guru_id: this.selectedGroup.guru_id,
         name: this.selectedGroup.name,
         grade: this.selectedGroup.grade,
@@ -163,7 +163,7 @@ export default {
       });
     },
     editGroup() {
-      window.axios.put(`p5-groups/${this.selectedGroup.id}`, {
+      window.axios.put(`admin/p5-groups/${this.selectedGroup.id}`, {
         guru_id: this.selectedGroup.guru_id,
         name: this.selectedGroup.name,
         grade: this.selectedGroup.grade,
@@ -196,7 +196,7 @@ export default {
       });
     },
     deleteGroup(group) {
-      window.axios.delete(`p5-groups/${group.id}`).then(response => {
+      window.axios.delete(`admin/p5-groups/${group.id}`).then(response => {
         Swal.fire({
           title: "Berhasil!",
           text: response.data.message,

@@ -4,6 +4,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import axios from 'axios';
+import { Toast } from './composables/swal';
 
 // Set up axios globally:
 window.axios = axios;
@@ -25,19 +26,25 @@ axios.interceptors.response.use(
     (error) => {
 
         if (error.response?.status === 401) {
-            localStorage.removeItem('token');
-            axios.defaults.headers.common['Authorization'] = 'Bearer';
+            if (error.response.data.message != "Unauthenticated.") {
+                Toast.fire({
+                    icon: "error",
+                    title: "Maaf, gagal mengambil data.",
+                });
+            } else {
+                axios.defaults.headers.common['Authorization'] = 'Bearer';
 
-            // Redirect the user to the login page:
-            router.push({
-                name: 'login',
-                params: {
-                    notLoggedIn: true
-                },
-                query: {
-                    redirect: router.currentRoute.value.path
-                }
-            });
+                // Redirect the user to the login page:
+                router.push({
+                    name: 'login',
+                    params: {
+                        notLoggedIn: true
+                    },
+                    query: {
+                        redirect: router.currentRoute.value.path
+                    }
+                });
+            }
         }
 
         return Promise.reject(error);

@@ -37,13 +37,13 @@ export default {
     },
     methods: {
         load() {
-            window.axios.get('p5-projects').then(response => {
+            window.axios.get('admin/p5-projects').then(response => {
                 this.projects = response.data.data;
             }).catch(error => {
                 console.error('Error fetching projects:', error);
             });
 
-            window.axios.get('p5-themes').then(response => {
+            window.axios.get('admin/p5-themes').then(response => {
                 this.themes = response.data.data;
             }).catch(error => {
                 console.error('Error fetching themes:', error);
@@ -66,7 +66,7 @@ export default {
         },
         deleteProject(project) {
             console.log("🚀 ~ deleteProject ~ project:", project)
-            window.axios.delete(`p5-projects/${project.id}`).then(response => {
+            window.axios.delete(`admin/p5-projects/${project.id}`).then(response => {
                 Swal.fire({
                     title: "Berhasil!",
                     text: "Proyek berhasil dihapus",
@@ -87,7 +87,7 @@ export default {
             this.selectedProject = project
         },
         addProject() {
-            window.axios.post('p5-projects', {
+            window.axios.post('admin/p5-projects', {
                 code: this.selectedProject.code,
                 name: this.selectedProject.name,
                 phase: this.selectedProject.phase,
@@ -110,7 +110,7 @@ export default {
             delete this.selectedProject.phases
             delete this.selectedProject.theme
 
-            window.axios.put(`p5-projects/${this.selectedProject.id}`, {
+            window.axios.put(`admin/p5-projects/${this.selectedProject.id}`, {
                 code: this.selectedProject.code,
                 name: this.selectedProject.name,
                 phase: this.selectedProject.phase,
@@ -140,7 +140,7 @@ export default {
             this.editProject();
         },
         deletePhase(phase) {
-            window.axios.delete(`p5-projects/${this.selectedProject.id}/phase/${phase.id}`).then(response => {
+            window.axios.delete(`admin/p5-projects/${this.selectedProject.id}/phase/${phase.id}`).then(response => {
                 Swal.fire({
                     title: "Berhasil!",
                     text: response.data.message,
@@ -157,7 +157,7 @@ export default {
             })
         },
         getSubelements() {
-            window.axios.get('p5-subelements', {
+            window.axios.get('admin/p5-subelements', {
                 phase: 'E',
             }).then(response => {
                 this.subelements = response.data.data;
@@ -166,7 +166,7 @@ export default {
             });
         },
         addPhaseFromSubElement(subelement) {
-            window.axios.post(`p5-projects/${this.selectedProject.id}/subelement/${subelement.id}`).then(response => {
+            window.axios.post(`admin/p5-projects/${this.selectedProject.id}/subelement/${subelement.id}`).then(response => {
                 Swal.fire({
                     title: "Berhasil!",
                     text: response.data.message,

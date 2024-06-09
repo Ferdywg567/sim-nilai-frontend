@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     load() {
-      window.axios.get('classes').then(response => {
+      window.axios.get('admin/classes').then(response => {
         this.classes = response.data.data;
       }).catch(error => {
         console.error('Error fetching classes:', error);
