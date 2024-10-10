@@ -80,53 +80,49 @@ export default {
                     Data Kelas
                 </RouterLink>
             </li>
-            <li class="menu-header small text-uppercase">
-                <span class="menu-header-text">Mata Pelajaran</span>
+            <li class="menu-header small text-uppercase" v-if="isAdmin">
+                <span class="menu-header-text" v-if="isAdmin">P5</span>
             </li>
-            <li class="menu-item">
-                <RouterLink to="/tema-p5" class="menu-link">
-                    Tujuan Pembelajaran
-                </RouterLink>
-            </li>
-            <li class="menu-item">
-                <a href="/target-proyek-p5" class="menu-link">
-                    Target Capaian Profil P5
-                </a>
-            </li>
-            <li class="menu-item">
-                <RouterLink to="/proyek-p5" class="menu-link">
-                    Proyek P5
-                </RouterLink>
-            </li>
-            <li class="menu-item">
-                <a href="/kelompok-p5" class="menu-link">
-                    Kelompok P5
-                </a>
-            </li>
-            <li class="menu-header small text-uppercase" v-show="hasP5Group || isAdmin">
-                <span class="menu-header-text" data-i18n="P5">P5</span>
-            </li>
-            <li class="menu-item">
+            <li class="menu-item" v-if="isAdmin">
                 <RouterLink to="/tema-p5" class="menu-link">
                     Tema P5
                 </RouterLink>
             </li>
-            <li class="menu-item">
+            <li class="menu-item" v-if="isAdmin">
                 <a href="/target-proyek-p5" class="menu-link">
                     Target Capaian Profil P5
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item" v-if="isAdmin">
                 <RouterLink to="/proyek-p5" class="menu-link">
                     Proyek P5
                 </RouterLink>
             </li>
-            <li class="menu-item">
+            <li class="menu-item" v-if="isAdmin">
                 <a href="/kelompok-p5" class="menu-link">
                     Kelompok P5
                 </a>
             </li>
 
+            <!--* ============= GURU SECTION =============-->
+            <li class="menu-header small text-uppercase" v-if="!isAdmin">
+                <span class="menu-header-text">Mata Pelajaran</span>
+            </li>
+            <li class="menu-item" v-if="!isAdmin">
+                <RouterLink to="/capaian-proyek" class="menu-link">
+                    Input Capaian Proyek
+                </RouterLink>
+            </li>
+            <li class="menu-item" v-if="!isAdmin">
+                <RouterLink to="/catatan-proses-proyek" class="menu-link">
+                    Catatan Proses Proyek
+                </RouterLink>
+            </li>
+            <li class="menu-item" v-if="!isAdmin">
+                <a href="/download-capaian-p5" class="menu-link">
+                    Download Capaian P5
+                </a>
+            </li>
         </ul>
     </aside>
     <!-- / Menu -->
