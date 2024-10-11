@@ -3,9 +3,9 @@
 </style>
 
 <script setup>
-import Navbar from './../../components/Navbar.vue'
-import Sidebar from './../../components/Sidebar.vue'
-import Footer from './../../components/Footer.vue'
+import Navbar from '../../components/Navbar.vue'
+import Sidebar from '../../components/Sidebar.vue'
+import Footer from '../../components/Footer.vue'
 import Swal from 'sweetalert2';
 
 import '../../assets/js/dashboards-analytics.js'</script>

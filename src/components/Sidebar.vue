@@ -118,11 +118,11 @@ export default {
                     Catatan Proses Proyek
                 </RouterLink>
             </li>
-            <li class="menu-item" v-if="!isAdmin">
+            <!-- <li class="menu-item" v-if="!isAdmin">
                 <a href="/download-capaian-p5" class="menu-link">
                     Download Capaian P5
                 </a>
-            </li>
+            </li> -->
         </ul>
     </aside>
     <!-- / Menu -->

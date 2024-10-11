@@ -22,6 +22,16 @@ if (route.params.loggedOut) {
 }
 // fungsi ketika submit form login
 
+const togglePass = function () {
+  const pass_input = document.querySelector('#password');
+
+  if (pass_input.attributes["type"].value == 'password') {
+    pass_input.attributes["type"].value = 'text';
+  } else {
+    pass_input.attributes["type"].value = 'password';
+  }
+}
+
 document.documentElement.classList = "light-style layout-wide customizer-hide"; // rubah class html
 </script>
 
@@ -81,7 +91,7 @@ export default {
                   <input type="password" id="password" class="form-control" name="password" v-model="form.password"
                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                     aria-describedby="password" />
-                  <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                  <span class="input-group-text cursor-pointer" @click="togglePass"><i class="ti ti-eye-off"></i></span>
                 </div>
               </div>
               <button class="btn btn-primary d-grid w-100" type="submit">Masuk</button>

@@ -148,7 +148,6 @@ const initializeAuthUser = () => {
 
   if (authUser.value) {
     authUser.value.isAdmin = authUser.value.role_id == 1;
-    console.log("🚀 ~ authUser.value:", authUser.value);
   } else {
     // Jika user tidak ada, redirect ke halaman login
     router.push({
